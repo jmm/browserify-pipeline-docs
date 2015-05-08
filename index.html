@@ -1,0 +1,257 @@
+<!doctype html>
+
+<html lang="en-US">
+
+<head>
+
+<meta charset="UTF-8" />
+
+<title>browserify pipeline documentation</title>
+
+<link rel="stylesheet" href="rsrc/index.css" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<!-- The core React library -->
+<script src="http://fb.me/react-0.13.1.js"></script>
+
+<script src="rsrc/bundle.js"></script>
+
+</head>
+
+<body class="container-fluid">
+
+<h1>
+The browserify pipeline
+</h1>
+
+<p>
+This documentation is based on browserify v10.1.x. This is very much a work in progress.
+</p>
+
+<section id="section-introduction">
+
+<h1>
+Introduction
+</h1>
+
+<p>
+The basic premise of the browserify pipeline is that objects (call them <code>row</code> or <code>rec</code>) with certain properties are pushed or written to the beginning ("top") or middle and bundles come out the end ("bottom").
+</p>
+
+<p>
+There are 2 types of rows: those representing files to include in the bundle, and those representing transforms. This document will focus on file rows.
+</p>
+
+</section>
+<!-- #introduction -->
+
+<section id="section-pushing-rows">
+
+<h1>
+Pushing rows
+</h1>
+
+<p>
+So how do you push rows to the browserify pipeline? There are several ways listed below (<code>b</code> is a browserify instance, <code>row</code> is an object). This list is meant to be illustrative, not exhaustive. See the <a href="https://github.com/substack/node-browserify/blob/master/readme.markdown">documentation</a> for these methods for more information.
+</p>
+
+<ul>
+<li>
+<p>
+<code>browserify('./file_path')</code>
+</p>
+</li>
+<li>
+<p>
+<code>browserify(['./file_path', ...])</code>
+</p>
+</li>
+
+<li>
+<p>
+<code>browserify({entries: './file_path'})</code>
+</p>
+</li>
+
+<li>
+<p>
+<code>browserify({entries: ['./file_path', ...]})</code>
+</p>
+</li>
+
+<li>
+<p>
+<code>b.add('./file_path')</code>
+</p>
+</li>
+
+<li>
+<p>
+<code>b.add(['./file_path', ...])</code>
+</p>
+</li>
+
+<li>
+<p>
+<code>b.require('./file_path')</code>
+</p>
+</li>
+
+<li>
+<p>
+<code>b.require(['./file_path', ...])</code>
+</p>
+</li>
+
+<li>
+<p>
+<code>b.require([row, ...])</code>
+</p>
+</li>
+
+<li>
+<p>
+Inserting an <code>objectMode</code> stream into the browserify pipeline and pushing rows onto its readable side. Existing rows can also be manipulated with such streams.
+</p>
+</li>
+</ul>
+
+</section>
+<!-- #section-pushing-rows -->
+
+<section id="section-row-props">
+
+<h1>
+Row properties
+</h1>
+
+<p>
+What are the properties of rows? The best way to explain this is the table below that documents what properties are relevant to what phases of the pipeline and how.
+</p>
+
+</section>
+<!-- #section-row-props -->
+
+<section id="section-definitions">
+
+<h1>
+Definitions
+</h1>
+
+<p>
+Terms used in this document:
+</p>
+
+<dl id="pipeline-phase-defs">
+<dt>
+<code>b</code>
+</dt>
+
+<dd>
+The browserify instance.
+</dd>
+
+<dt>
+<code>opts</code>
+</dt>
+
+<dd>
+Options passed to the constructor when creating <code>b</code>.
+</dd>
+
+<dt>
+<code>basedir</code>
+</dt>
+
+<dd>
+The contextually relevant <code>basedir</code> value.
+</dd>
+
+<dt>
+<code>prePipeline</code>
+</dt>
+
+<dd>
+The methods <code>browserify()|b.add()|b.require()</code>.
+</dd>
+
+<dt>
+<code>args</code>
+</dt>
+
+<dd>
+Refers to the arguments to the relevant <code>prePipeline</code> function. For example, in the context of <code>b.require(file, opts)</code>, <code>args.file</code> and <code>args.opts</code> refer to the arguments.
+</dd>
+
+<dt>
+<code>filePath|filePaths</code>
+</dt>
+
+<dd>
+Strings or arrays of such strings indicating files to push to the pipeline.
+</dd>
+
+<dt>
+<code>fileObj|fileObjs</code>
+</dt>
+
+<dd>
+An object or array of such objects indicating files to push to the pipeline.
+</dd>
+
+<dt>
+<code>rootFile|rootFiles</code>
+</dt>
+
+<dd>
+<code>filePath|filePaths|fileObj|fileObjs</code> passed to <code>prePipeline</code>.
+</dd>
+
+<dt>
+<code>row</code>
+</dt>
+
+<dd>
+An object pushed to the pipeline.
+</dd>
+
+<dt>
+<code>inRow</code>
+</dt>
+
+<dd>
+Refers to the <code>row</code> that enters the phase.
+</dd>
+
+<dt>
+<code>outRow</code>
+</dt>
+
+<dd>
+Refers to the <code>row</code> that exits the phase
+</dd>
+</dl>
+
+<p>
+<code>inRow|outRow</code> may or may not be the same object, but these names will be used to distinguish whether the value of a property refers to the value it had coming in or the value it has going out. For example, "the same value as <code>outRow.file</code>" means the value the <code>file</code> property has in the row coming out of the phase.
+</p>
+
+</section>
+<!-- #section-definitions -->
+
+<section id="section-pipeline">
+
+<h1>
+Pipeline Phases
+</h1>
+
+<div id="pipeline-phases">
+</div>
+
+</section>
+<!-- #section-pipeline -->
+
+</body>
+
+</html>
