@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "dependencies": {
+    "gulp": "gulpjs/gulp#4.0"
+  }
+}
